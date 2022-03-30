@@ -5,8 +5,8 @@ import GenresList from '../genres-list/genres-list';
 import PromoFilm from '../promo-film/promo-film';
 
 
-const countFilm = 20;
-const filmsList = [...new Array(countFilm)].map((_, i) => i);
+const COUNT_FILM = 20;
+const filmsList = [...new Array(COUNT_FILM)].map((_, i) => i);
 
 type PromoFilmProps = {
   title: string;

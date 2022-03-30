@@ -1,29 +1,40 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Footer from '../footer/footer';
-import Header from '../header/header';
+import Logo from '../logo/logo';
+import UserBlock from '../user-block/user-block';
+import { films } from '../../mocks/films';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 function FilmPage(): JSX.Element {
+  const { id: idParams } = useParams();
+  const film = films.find(({ id }) => id.toString() === idParams);
+  if (film === undefined) {
+    return <NotFoundPage />;
+  }
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img
-              src="img/bg-the-grand-budapest-hotel.jpg"
-              alt="The Grand Budapest Hotel"
-            />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <Header />
+          <header className="page-header film-card__head">
+            <Logo />
+
+            <UserBlock />
+          </header>
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -45,9 +56,12 @@ function FilmPage(): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">
+                <Link
+                  className="btn film-card__button"
+                  to={`/films/${film.id}/review`}
+                >
                   Add review
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -57,8 +71,8 @@ function FilmPage(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt="The Grand Budapest Hotel poster"
+                src={film.posterImage}
+                alt={film.name}
                 width="218"
                 height="327"
               />
@@ -86,39 +100,24 @@ function FilmPage(): JSX.Element {
               </nav>
 
               <div className="film-rating">
-                <div className="film-rating__score">8,9</div>
+                <div className="film-rating__score">{film.rating}</div>
                 <p className="film-rating__meta">
                   <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
+                  <span className="film-rating__count">
+                    {film.scoresCount} ratings
+                  </span>
                 </p>
               </div>
 
               <div className="film-card__text">
-                <p>
-                  In the 1930s, the Grand Budapest Hotel is a popular European
-                  ski resort, presided over by concierge Gustave H. (Ralph
-                  Fiennes). Zero, a junior lobby boy, becomes Gustave &prime; s
-                  friend and protege.
-                </p>
-
-                <p>
-                  Gustave prides himself on providing first-className service to
-                  the hotel &prime; s guests, including satisfying the sexual
-                  needs of the many elderly women who stay there. When one of
-                  Gustave &prime; s lovers dies mysteriously, Gustave finds
-                  himself the recipient of a priceless painting and the chief
-                  suspect in her murder.
-                </p>
+                <p>{film.description}</p>
 
                 <p className="film-card__director">
-                  <strong>Director: Wes Anderson</strong>
+                  <strong>Director: {film.director}</strong>
                 </p>
 
                 <p className="film-card__starring">
-                  <strong>
-                    Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe
-                    and other
-                  </strong>
+                  <strong>Starring: {film.starring}</strong>
                 </p>
               </div>
             </div>

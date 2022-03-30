@@ -1,11 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-function PlayerPage(): JSX.Element {
+import { FilmDes } from '../../types/film';
+type PlayerPageProps = {
+  film: FilmDes;
+};
+
+function PlayerPage({ film }: PlayerPageProps): JSX.Element {
   return (
     <div className="player">
       <video
-        src="#"
+        src={film.videoLink}
         className="player__video"
-        poster="img/player-poster.jpg"
+        poster={film.posterImage}
       >
       </video>
 

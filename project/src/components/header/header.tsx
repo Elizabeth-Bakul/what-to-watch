@@ -1,16 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Link } from 'react-router-dom';
+import Logo from '../logo/logo';
 function Header(): JSX.Element {
   return (
     <header className="page-header film-card__head">
-      <div className="logo">
-        <Link to="/" className="logo__link">
-          <span className="logo__letter logo__letter--1">W</span>
-          <span className="logo__letter logo__letter--2">T</span>
-          <span className="logo__letter logo__letter--3">W</span>
-        </Link>
-      </div>
 
+      <Logo/>
       <nav className="breadcrumbs">
         <ul className="breadcrumbs__list">
           <li className="breadcrumbs__item">

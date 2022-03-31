@@ -1,20 +1,19 @@
-import Header from '../header/header';
+
+import Logo from '../logo/logo';
+import UserBlock from '../user-block/user-block';
 import Footer from '../footer/footer';
-import CardFilm from '../card-film/card-film';
+
 import GenresList from '../genres-list/genres-list';
 import PromoFilm from '../promo-film/promo-film';
+import { FilmDes } from '../../types/film';
+import FilmList from '../film-list/film-list';
 
-
-const COUNT_FILM = 20;
-const filmsList = [...new Array(COUNT_FILM)].map((_, i) => i);
 
 type PromoFilmProps = {
-  title: string;
-  genre: string;
-  yearRelease: number;
+  films: FilmDes[];
 };
 
-function MainPage({ title, genre, yearRelease }: PromoFilmProps): JSX.Element {
+function MainPage({ films }: PromoFilmProps): JSX.Element {
   return (
     <>
       <section className="film-card">
@@ -24,11 +23,16 @@ function MainPage({ title, genre, yearRelease }: PromoFilmProps): JSX.Element {
             alt="The Grand Budapest Hotel"
           />
         </div>
-
         <h1 className="visually-hidden">WTW</h1>
-
-        <Header />
-        <PromoFilm title={title} genre={genre} yearRelease={yearRelease} />
+        <header className="page-header film-card__head">
+          <Logo />
+          <UserBlock />
+        </header>
+        <PromoFilm
+          title={films[0].name}
+          genre={films[0].genre}
+          yearRelease={films[0].released}
+        />
       </section>
 
       <div className="page-content">
@@ -36,9 +40,7 @@ function MainPage({ title, genre, yearRelease }: PromoFilmProps): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenresList />
           <div className="catalog__films-list">
-            {filmsList.map((film) => (
-              <CardFilm key={film} />
-            ))}
+            <FilmList films={films} />
           </div>
 
           <div className="catalog__more">

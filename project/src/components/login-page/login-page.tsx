@@ -1,11 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Footer from '../footer/footer';
-import Header from '../header/header';
+import Logo from '../logo/logo';
 
 function LoginPage(): JSX.Element {
   return (
     <div className="user-page">
-      <Header />
+      <header className="page-header user-page__head">
+        <Logo />
+        <h1 className="page-title user-page__title">Sign in</h1>
+      </header>
       <div className="sign-in user-page__content">
         <form action="#" className="sign-in__form">
           <div className="sign-in__fields">

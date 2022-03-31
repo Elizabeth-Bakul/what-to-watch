@@ -10,7 +10,7 @@ import ReviewForm from '../add-review/add-review';
 function AddReviewPage(): JSX.Element {
   const { id: idParams } = useParams();
   const film = films.find(({ id }) => id.toString() === idParams);
-  if (film === undefined) {
+  if (!film) {
     return <NotFoundPage />;
   }
   return (

@@ -10,7 +10,7 @@ import NotFoundPage from '../not-found-page/not-found-page';
 function FilmPage(): JSX.Element {
   const { id: idParams } = useParams();
   const film = films.find(({ id }) => id.toString() === idParams);
-  if (film === undefined) {
+  if (!film) {
     return <NotFoundPage />;
   }
   return (

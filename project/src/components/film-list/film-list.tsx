@@ -9,11 +9,11 @@ type FilmListProps = {
 function FilmList({ films }: FilmListProps): JSX.Element {
 
   return (
-    <div className="catalog__films-list">
+    <>
       {films.map((film) => (
-        <CardFilm key={film.id} film={film}  />
+        <CardFilm key={film.id} film={film} />
       ))}
-    </div>
+    </>
   );
 }
 

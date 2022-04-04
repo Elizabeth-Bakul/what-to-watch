@@ -7,13 +7,20 @@ import GenresList from '../genres-list/genres-list';
 import PromoFilm from '../promo-film/promo-film';
 import { FilmDes } from '../../types/film';
 import FilmList from '../film-list/film-list';
-
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../../hooks';
 
 type PromoFilmProps = {
   films: FilmDes[];
 };
 
 function MainPage({ films }: PromoFilmProps): JSX.Element {
+  const [genres, setGenres] = useState<string[]>([]);
+  const currentGenre = useAppSelector((state) => state.genre);
+
+  useEffect(() => {
+    setGenres(['All genres', ...new Set(films.map(({ genre }) => genre))]);
+  }, [films]);
   return (
     <>
       <section className="film-card">
@@ -38,9 +45,16 @@ function MainPage({ films }: PromoFilmProps): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenresList />
+          <ul className="catalog__genres-list">
+            <GenresList genres={genres} />
+          </ul>
           <div className="catalog__films-list">
-            <FilmList films={films} />
+            <FilmList
+              films={films.filter(
+                ({ genre }) =>
+                  currentGenre === 'All genres' || currentGenre === genre,
+              )}
+            />
           </div>
 
           <div className="catalog__more">

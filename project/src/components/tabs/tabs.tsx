@@ -13,7 +13,7 @@ enum FilmPageLinks {
 }
 
 type TabsProps = {
-  film: FilmDes;
+  film: FilmDes,
   reviews: Review[];
 };
 

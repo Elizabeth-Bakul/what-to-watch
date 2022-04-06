@@ -1,18 +1,30 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useEffect } from 'react';
 import Footer from '../footer/footer';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
-import { films } from '../../mocks/films';
-import { reviews } from '../../mocks/reviews';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import MoreLike from '../more-like/more-like';
 import Tab from '../tabs/tabs';
+import { useAppSelector } from '../../hooks';
+import { fetchReviewsAction } from '../../store/api-action';
+import { store } from '../../store';
+import { AppRoute } from '../../consts';
 
 function FilmPage(): JSX.Element {
+  const navigate = useNavigate();
   const { id: idParams } = useParams();
+  const { films, reviews } = useAppSelector((state) => state);
   const film = films.find(({ id }) => id.toString() === idParams);
+  useEffect(() => {
+    if (!film) {
+      navigate(AppRoute.NotFound);
+      return;
+    }
+    store.dispatch(fetchReviewsAction(film.id));
+  }, [film, navigate]);
   if (!film) {
     return <NotFoundPage />;
   }

@@ -45,9 +45,7 @@ function MainPage({ films }: PromoFilmProps): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <ul className="catalog__genres-list">
-            <GenresList genres={genres} />
-          </ul>
+          <GenresList genres={genres} />
           <div className="catalog__films-list">
             <FilmList
               films={films.filter(

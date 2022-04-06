@@ -3,6 +3,7 @@ import Footer from '../footer/footer';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import { films } from '../../mocks/films';
+import { reviews } from '../../mocks/reviews';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
@@ -80,7 +81,7 @@ function FilmPage(): JSX.Element {
               />
             </div>
 
-            <Tab film={film} />
+            <Tab film={film} reviews={reviews} />
           </div>
         </div>
       </section>

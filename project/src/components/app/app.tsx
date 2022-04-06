@@ -14,6 +14,7 @@ import { FilmDes } from '../../types/film';
 
 type PromoFilmProps = {
   films: FilmDes[];
+
 };
 function App({ films }: PromoFilmProps): JSX.Element {
   return (
@@ -32,10 +33,7 @@ function App({ films }: PromoFilmProps): JSX.Element {
           }
         />
         <Route path={AppRoute.Film} element={<FilmPage />} />
-        <Route
-          path={AppRoute.AddReview}
-          element={<AddReviewPage />}
-        />
+        <Route path={AppRoute.AddReview} element={<AddReviewPage />} />
         <Route
           path={AppRoute.Player}
           element={<PlayerPage film={films[0]} />}

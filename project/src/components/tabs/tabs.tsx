@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, MouseEvent } from 'react';
 import { FilmDes } from '../../types/film';
-import { Review } from '../../types/review';
 import FilmDetailTab from './film-detail/film-detail';
 import FilmOverviewTab from './film-overview/film-overview';
 import FilmReviewsTab from './film-review/film-review';
@@ -13,11 +12,10 @@ enum FilmPageLinks {
 }
 
 type TabsProps = {
-  film: FilmDes,
-  reviews: Review[];
+  film: FilmDes
 };
 
-function Tab({ film, reviews }: TabsProps): JSX.Element {
+function Tab({ film}: TabsProps): JSX.Element {
   const [currentLink, setCurrentLink] = useState(FilmPageLinks.overview);
 
   const clickOverviewTabLinkHandler = (evt: MouseEvent) => {
@@ -93,7 +91,7 @@ function Tab({ film, reviews }: TabsProps): JSX.Element {
       )}
       {currentLink === FilmPageLinks.details && <FilmDetailTab film={film} />}
       {currentLink === FilmPageLinks.reviews && (
-        <FilmReviewsTab reviews={reviews} />
+        <FilmReviewsTab filmId={film.id} />
       )}
     </div>
   );

@@ -1,16 +1,36 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Logo from '../logo/logo';
-import { useAppSelector } from '../../hooks';
 import UserBlock from '../user-block/user-block';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
-import ReviewForm from '../add-review/add-review';
+import ReviewForm from '../review-form/review-form';
+import { useEffect, useState } from 'react';
+import { FilmDes } from '../../types/film';
+import { getFilmById } from '../../services/api';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {  AppRoute } from '../../consts';
+import { useAppSelector } from '../../hooks';
+
 
 function AddReviewPage(): JSX.Element {
   const { id: idParams } = useParams();
-  const { films } = useAppSelector((state) => state);
-  const film = films.find(({ id }) => id.toString() === idParams);
+  const [film, setFilm] = useState<FilmDes | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { authStatus } = useAppSelector((state) => state);
+  useEffect(() => {
+    getFilmById(Number(idParams)).then((data) => {
+      setFilm(data);
+      setLoading(false);
+    });
+  }, [idParams]);
+
+  if (authStatus !== 'AUTH') {
+    return <Navigate to={AppRoute.Login} />;
+  }
+  if (loading) {
+    return <LoadingScreen />;
+  }
   if (!film) {
     return <NotFoundPage />;
   }
@@ -50,7 +70,7 @@ function AddReviewPage(): JSX.Element {
       </div>
 
       <div className="add-review">
-        <ReviewForm/>
+        <ReviewForm filmId={film.id} />
       </div>
     </section>
   );

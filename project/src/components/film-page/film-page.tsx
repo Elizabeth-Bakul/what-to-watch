@@ -1,30 +1,32 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { FilmDes } from '../../types/film';
 import Footer from '../footer/footer';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import MoreLike from '../more-like/more-like';
 import Tab from '../tabs/tabs';
 import { useAppSelector } from '../../hooks';
-import { fetchReviewsAction } from '../../store/api-action';
-import { store } from '../../store';
-import { AppRoute } from '../../consts';
+import { getFilmById } from '../../services/api';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function FilmPage(): JSX.Element {
-  const navigate = useNavigate();
   const { id: idParams } = useParams();
-  const { films, reviews } = useAppSelector((state) => state);
-  const film = films.find(({ id }) => id.toString() === idParams);
+  const [film, setFilm] = useState<FilmDes | null>(null);
+  const [loading, setLoading] = useState(true);
+  const {authStatus } = useAppSelector((state) => state);
   useEffect(() => {
-    if (!film) {
-      navigate(AppRoute.NotFound);
-      return;
-    }
-    store.dispatch(fetchReviewsAction(film.id));
-  }, [film, navigate]);
+    getFilmById(Number(idParams)).then((data) => {
+      setFilm(data);
+      setLoading(false);
+    });
+  }, [idParams]);
+  if (loading) {
+    return <LoadingScreen />;
+  }
   if (!film) {
     return <NotFoundPage />;
   }
@@ -71,12 +73,14 @@ function FilmPage(): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link
-                  className="btn film-card__button"
-                  to={`/films/${film.id}/review`}
-                >
-                  Add review
-                </Link>
+                {authStatus === 'AUTH' && (
+                  <Link
+                    to={`/films/${film.id}/review`}
+                    className="btn film-card__button"
+                  >
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -93,12 +97,12 @@ function FilmPage(): JSX.Element {
               />
             </div>
 
-            <Tab film={film} reviews={reviews} />
+            <Tab film={film} />
           </div>
         </div>
       </section>
       <div className="page-content">
-        <MoreLike films={films} genre={film.genre} />
+        <MoreLike filmId={film.id} />
         <Footer />
       </div>
     </>

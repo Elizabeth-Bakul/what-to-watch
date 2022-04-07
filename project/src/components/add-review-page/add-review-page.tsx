@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Logo from '../logo/logo';
-import { films } from '../../mocks/films';
+import { useAppSelector } from '../../hooks';
 import UserBlock from '../user-block/user-block';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import ReviewForm from '../add-review/add-review';
 
 function AddReviewPage(): JSX.Element {
   const { id: idParams } = useParams();
+  const { films } = useAppSelector((state) => state);
   const film = films.find(({ id }) => id.toString() === idParams);
   if (!film) {
     return <NotFoundPage />;

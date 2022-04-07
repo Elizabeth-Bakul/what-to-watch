@@ -9,18 +9,13 @@ import AddReviewPage from '../add-review-page/add-review-page';
 import PlayerPage from '../player-page/player-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-import { FilmDes } from '../../types/film';
 
+function App(): JSX.Element {
 
-type PromoFilmProps = {
-  films: FilmDes[];
-
-};
-function App({ films }: PromoFilmProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainPage films={films} />} />
+        <Route path={AppRoute.Main} element={<MainPage/>} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route
           path={AppRoute.MyList}
@@ -28,7 +23,7 @@ function App({ films }: PromoFilmProps): JSX.Element {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NotAuthorized}
             >
-              <MyListPage films={films} />
+              <MyListPage />
             </PrivateRoute>
           }
         />
@@ -36,7 +31,7 @@ function App({ films }: PromoFilmProps): JSX.Element {
         <Route path={AppRoute.AddReview} element={<AddReviewPage />} />
         <Route
           path={AppRoute.Player}
-          element={<PlayerPage film={films[0]} />}
+          element={<PlayerPage/>}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

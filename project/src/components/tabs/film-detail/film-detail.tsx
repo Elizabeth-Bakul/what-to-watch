@@ -5,7 +5,12 @@ import { FilmDes } from '../../../types/film';
 type FilmDetailProps = {
   film: FilmDes;
 };
-
+const getTimeStrFromMinutes = (minutes: number): string => {
+  if (minutes < 60) {
+    return `${minutes}m`;
+  }
+  return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
+};
 function FilmDetailTab({ film }: FilmDetailProps): JSX.Element {
   return (
     <div className="film-card__text film-card__row">
@@ -30,7 +35,7 @@ function FilmDetailTab({ film }: FilmDetailProps): JSX.Element {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
           <span className="film-card__details-value">
-            {film.runTime}
+            {getTimeStrFromMinutes(film.runTime)}
           </span>
         </p>
         <p className="film-card__details-item">

@@ -1,15 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+
+import { useAppSelector } from '../../hooks';
+import UserBlockLogin from './user-block-login/user-block-login';
+import UserBlockSignOut from './user-block-logout/user-block-logout';
+
 function UserBlock(): JSX.Element {
+  const { authStatus } = useAppSelector((state) => state);
   return (
     <ul className="user-block">
-      <li className="user-block__item">
-        <div className="user-block__avatar">
-          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-        </div>
-      </li>
-      <li className="user-block__item">
-        <a className="user-block__link">Sign out</a>
-      </li>
+      {authStatus === 'AUTH' ? <UserBlockSignOut /> : <UserBlockLogin />}
     </ul>
   );
 }

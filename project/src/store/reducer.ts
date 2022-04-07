@@ -1,6 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { updateGenre, loadFilms, loadPromoFilm, loadReviews } from './action';
-
+import {
+  updateGenre,
+  loadFilms,
+  loadPromoFilm,
+  loadReviews,
+  requireAuthorization,
+  resetUser,
+  setUser
+} from './action';
+import { AuthorizationStatus } from '../consts';
 import { State } from '../types/state';
 
 const DEFAULT_FILTER_GENRE_VALUE = 'All genres';
@@ -11,12 +19,15 @@ const initialState: State = {
   promoFilm: null,
   reviews: [],
   isDataLoaded: false,
+  authStatus: AuthorizationStatus.Unknown,
+  user: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
-  builder.addCase(updateGenre, (state, action) => {
-    state.genre = action.payload;
-  })
+  builder
+    .addCase(updateGenre, (state, action) => {
+      state.genre = action.payload;
+    })
     .addCase(loadPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
       state.isDataLoaded = true;
@@ -24,6 +35,15 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFilms, (state, action) => {
       state.films = action.payload;
       state.isDataLoaded = true;
+    })
+    .addCase(setUser, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(resetUser, (state) => {
+      state.user = null;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authStatus = action.payload;
     })
     .addCase(loadReviews, (state, action) => {
       state.reviews = action.payload;

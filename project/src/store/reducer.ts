@@ -3,9 +3,9 @@ import {
   updateGenre,
   loadFilms,
   loadPromoFilm,
-  loadReviews,
   requireAuthorization,
   resetUser,
+  dataIsLoading,
   setUser
 } from './action';
 import { AuthorizationStatus } from '../consts';
@@ -45,9 +45,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(requireAuthorization, (state, action) => {
       state.authStatus = action.payload;
     })
-    .addCase(loadReviews, (state, action) => {
-      state.reviews = action.payload;
-      state.isDataLoaded = true;
+    .addCase(dataIsLoading, (state) => {
+      state.isDataLoaded = false;
     });
 });
 

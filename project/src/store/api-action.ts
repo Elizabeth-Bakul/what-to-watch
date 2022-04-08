@@ -3,12 +3,11 @@ import { api } from '../store';
 import { store } from '../store';
 import { saveToken,dropToken } from '../services/token';
 import { FilmDes } from '../types/film';
-import { Review} from '../types/review';
 import { AuthData, UserData } from '../types/user';
 import {
+  dataIsLoading,
   loadPromoFilm,
   loadFilms,
-  loadReviews,
   redirectToRoute,
   requireAuthorization,
   resetUser,
@@ -20,6 +19,7 @@ export const fetchFilmsAction = createAsyncThunk(
   'data/fetchFilms',
   async () => {
     try {
+      store.dispatch(dataIsLoading());
       const { data } = await api.get<FilmDes[]>(APIRoute.Films);
       store.dispatch(loadFilms(data));
     }catch (error) {
@@ -31,22 +31,14 @@ export const fetchPromoFilmAction = createAsyncThunk(
   'data/fetchPromoFilm',
   async () => {
     try {
+      store.dispatch(dataIsLoading());
       const { data } = await api.get<FilmDes>(APIRoute.Promo);
       store.dispatch(loadPromoFilm(data));
     } catch (error) {
       errorHandle(error);
     }},
 );
-export const fetchReviewsAction = createAsyncThunk(
-  'data/fetchReviews',
-  async (id: number | null) => {
-    try {
-      const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
-      store.dispatch(loadReviews(data));
-    } catch (error) {
-      errorHandle(error);
-    }
-  });
+
 export const checkAuthAction = createAsyncThunk('user/checkAuth', async () => {
   try {
     const { data } = await api.get(APIRoute.Login);

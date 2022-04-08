@@ -1,20 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { api } from '../store';
-import { store } from '../store';
+import { api } from './store';
+import { store } from './store';
 import { saveToken,dropToken } from '../services/token';
 import { FilmDes } from '../types/film';
 import { AuthData, UserData } from '../types/user';
 import {
-  dataIsLoading,
-  loadPromoFilm,
-  loadFilms,
-  redirectToRoute,
-  requireAuthorization,
-  resetUser,
-  setUser
+  redirectToRoute
 } from './action';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../consts';
 import { errorHandle } from '../services/error-handler';
+import {
+  dataIsLoading,
+  loadFilms,
+  loadPromoFilm
+} from './film-data/film-data';
+import {
+  requireAuthorization,
+  resetUser,
+  setUser
+} from './user-process/user-process';
+
 export const fetchFilmsAction = createAsyncThunk(
   'data/fetchFilms',
   async () => {

@@ -5,9 +5,7 @@ type FilmListProps = {
   films: FilmDes[];
 };
 
-
 function FilmList({ films }: FilmListProps): JSX.Element {
-
   return (
     <div className="catalog__films-list">
       {films.map((film) => (

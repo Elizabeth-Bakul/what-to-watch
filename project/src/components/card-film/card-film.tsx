@@ -36,7 +36,11 @@ function CardFilm({ film }: FilmCardProps): JSX.Element {
         />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${film.id}`}>
+        <Link
+          className="small-film-card__link"
+          to={`/films/${film.id}`}
+          onClick={() => clearTimeout(activeTimer)}
+        >
           {film.name}
         </Link>
       </h3>

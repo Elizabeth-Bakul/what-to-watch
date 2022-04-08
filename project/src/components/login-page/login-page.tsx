@@ -9,7 +9,7 @@ import { loginAction } from '../../store/api-action';
 
 function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { authStatus } = useAppSelector((state) => state);
+  const { authStatus } = useAppSelector((state) => state.USER);
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
 

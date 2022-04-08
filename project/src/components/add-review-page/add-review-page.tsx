@@ -17,7 +17,7 @@ function AddReviewPage(): JSX.Element {
   const { id: idParams } = useParams();
   const [film, setFilm] = useState<FilmDes | null>(null);
   const [loading, setLoading] = useState(true);
-  const { authStatus } = useAppSelector((state) => state);
+  const { authStatus } = useAppSelector((state) => state.USER);
   useEffect(() => {
     getFilmById(Number(idParams)).then((data) => {
       setFilm(data);

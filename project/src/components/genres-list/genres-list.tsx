@@ -1,27 +1,35 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Link } from 'react-router-dom';
-import { updateGenre } from '../../store/action';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { MouseEvent } from 'react';
 
 type CatalogGenresListProps = {
   genres: string[];
+  setCountFilmShow: (value: number) => void;
+  setGenre: (genre: string) => void;
+  currentGenre: string;
 };
-function GenresList({ genres }: CatalogGenresListProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  const currentGenre = useAppSelector((state) => state.genre);
+function GenresList({ genres,setCountFilmShow, setGenre, currentGenre }: CatalogGenresListProps): JSX.Element {
+  const clickToChangeGenreHandler = (evt: MouseEvent, genre: string) => {
+    evt.preventDefault();
+    setGenre(genre);
+    setCountFilmShow(8);
+  };
+
   return (
     <ul className="catalog__genres-list">
       {genres.map((item) => (
         <li
           key={item}
-          onClick={() => dispatch(updateGenre(item))}
           className={`catalog__genres-item ${
-            item === currentGenre ? ' catalog__genres-item--active' : ''
+            currentGenre === item && 'catalog__genres-item--active'
           }`}
         >
-          <Link to={''} className="catalog__genres-link">
+          <a
+            href="#"
+            className="catalog__genres-link"
+            onClick={(evt) => clickToChangeGenreHandler(evt, item)}
+          >
             {item}
-          </Link>
+          </a>
         </li>
       ))}
     </ul>

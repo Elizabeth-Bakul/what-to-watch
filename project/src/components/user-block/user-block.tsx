@@ -5,7 +5,7 @@ import UserBlockLogin from './user-block-login/user-block-login';
 import UserBlockSignOut from './user-block-logout/user-block-logout';
 
 function UserBlock(): JSX.Element {
-  const { authStatus } = useAppSelector((state) => state);
+  const { authStatus } = useAppSelector((state) => state.USER);
   return (
     <ul className="user-block">
       {authStatus === 'AUTH' ? <UserBlockSignOut /> : <UserBlockLogin />}

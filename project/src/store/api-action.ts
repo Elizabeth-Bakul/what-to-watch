@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from './store';
 import { store } from './store';
 import { saveToken,dropToken } from '../services/token';
-import { FilmDes } from '../types/film';
+import { Favorite, FilmDes } from '../types/film';
 import { AuthData, UserData } from '../types/user';
 import {
   redirectToRoute
@@ -11,6 +11,7 @@ import { APIRoute, AppRoute, AuthorizationStatus } from '../consts';
 import { errorHandle } from '../services/error-handler';
 import {
   dataIsLoading,
+  loadFavoriteList,
   loadFilms,
   loadPromoFilm
 } from './film-data/film-data';
@@ -83,4 +84,27 @@ export const logoutAction = createAsyncThunk('user/logout', async () => {
     errorHandle(error);
   }
 });
+export const addFavoriteAction = createAsyncThunk(
+  'data/addFavorite',
+  async ({ filmId, type }: Favorite) => {
+    try {
+      await api.post<FilmDes>(`${APIRoute.Favorite}/${filmId}/${type}`);
+      store.dispatch(fetchFavoriteListAction());
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const fetchFavoriteListAction = createAsyncThunk(
+  'data/fetchFavoriteList',
+  async () => {
+    try {
+      const { data } = await api.get<FilmDes[]>(`${APIRoute.Favorite}`);
+      store.dispatch(loadFavoriteList(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
 

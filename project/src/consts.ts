@@ -20,16 +20,21 @@ export enum APIRoute {
   Comments = '/comments',
   Login = '/login',
   Logout = 'logout',
+  Favorite = '/favorite',
 }
 export enum HTTP_CODE {
-  OK = 200,
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+  Ok = 200,
+  Bad_request = 400,
+  Unauthorized = 401,
+  Not_found = 404,
 }
 export enum NameSpace {
-  data = 'DATA',
-  film = 'FILM',
-  user = 'USER',
+  Data = 'DATA',
+  User = 'USER',
 }
+export enum FavoriteAddOrRemove {
+  Add = 1,
+  Remove = 0,
+}
+
 

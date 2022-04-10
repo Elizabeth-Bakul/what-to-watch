@@ -10,7 +10,7 @@ import MainPageContent from './main-page-content/main-page-content';
 function MainPage(): JSX.Element {
   const { isDataLoaded, promoFilm } = useAppSelector((state) => state.DATA);
   const { films } = useAppSelector((state) => state.DATA);
-  if (!isDataLoaded) {
+  if (!isDataLoaded || promoFilm === null) {
     return <LoadingScreen />;
   }
   return (

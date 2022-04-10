@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchFilmsAction, fetchPromoFilmAction } from './store/api-action';
 
-//
 store.dispatch(fetchFilmsAction());
 store.dispatch(fetchPromoFilmAction());
 

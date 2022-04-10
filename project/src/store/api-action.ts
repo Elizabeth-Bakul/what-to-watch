@@ -48,6 +48,7 @@ export const fetchPromoFilmAction = createAsyncThunk(
 export const checkAuthAction = createAsyncThunk('user/checkAuth', async () => {
   try {
     const { data } = await api.get(APIRoute.Login);
+    store.dispatch(fetchFavoriteListAction());
     store.dispatch(setUser(data));
     store.dispatch(requireAuthorization(AuthorizationStatus.Authorized));
   } catch (error) {

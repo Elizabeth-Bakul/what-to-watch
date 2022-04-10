@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { FilmDes } from '../../types/film';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import PlayerPreview from '../player-preview/player-preview';
 
@@ -9,13 +9,14 @@ type FilmCardProps = {
 };
 function CardFilm({ film }: FilmCardProps): JSX.Element {
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
   let activeTimer: NodeJS.Timeout;
 
-  const onMouseOverHanlder = () => {
+  const handeOverMouse = () => {
     activeTimer = setTimeout(() => setIsActive(true), 1000);
   };
 
-  const onMouseLeaveHanlder = () => {
+  const handeLeaveOverMouse = () => {
     if(activeTimer) {
       clearTimeout(activeTimer);
     }
@@ -25,10 +26,13 @@ function CardFilm({ film }: FilmCardProps): JSX.Element {
   return (
     <article
       className="small-film-card catalog__films-card"
-      onMouseEnter={onMouseOverHanlder}
-      onMouseLeave={onMouseLeaveHanlder}
+      onMouseEnter={handeOverMouse}
+      onMouseLeave={handeLeaveOverMouse}
     >
-      <div className="small-film-card__image">
+      <div
+        className="small-film-card__image"
+        onClick={() => {navigate(`/films/${film.id}`);clearTimeout(activeTimer);}}
+      >
         <PlayerPreview
           src={film.videoLink}
           poster={film.posterImage}

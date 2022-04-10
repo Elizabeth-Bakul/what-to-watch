@@ -1,3 +1,5 @@
+import { COUNT_FILM_LOADED } from '../../consts';
+
 type ShowMoreButtonProps = {
   countFilmShow: number;
   setCountFilmShow: (value: number) => void;
@@ -12,7 +14,7 @@ function ShowMoreButton({
       <button
         className="catalog__button"
         type="button"
-        onClick={() => setCountFilmShow(countFilmShow + 8)}
+        onClick={() => setCountFilmShow(countFilmShow + COUNT_FILM_LOADED)}
       >
         Show more
       </button>

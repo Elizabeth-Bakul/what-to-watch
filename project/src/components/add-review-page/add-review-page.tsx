@@ -61,7 +61,7 @@ function AddReviewPage(): JSX.Element {
         </header>
         <div className="film-card__poster film-card__poster--small">
           <img
-            src={film.previewImage}
+            src={film.posterImage}
             alt={film.name}
             width="218"
             height="327"

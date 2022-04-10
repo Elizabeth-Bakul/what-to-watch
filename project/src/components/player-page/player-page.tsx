@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { HOUR_IN_MINUTES } from '../../consts';
 import { getFilmById } from '../../services/api';
 import { FilmDes } from '../../types/film';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -23,12 +24,12 @@ function PlayerPage(): JSX.Element {
     });
   }, [id]);
 
-  const clickPauseHandler = () => {
+  const handeClickPause = () => {
     player.current.pause();
     setPlaying(false);
   };
 
-  const clickPlayHandler = () => {
+  const handeClickPlay = () => {
     player.current.play();
     setPlaying(true);
   };
@@ -47,16 +48,16 @@ function PlayerPage(): JSX.Element {
   }, [playing]);
   const getVideoTimeLeft = (fullTime: number, currentTime: number) => {
     const timeLeft = fullTime - currentTime;
-    return `${Math.floor(timeLeft / 60)}:${`0${Math.floor(
-      timeLeft % 60,
+    return `${Math.floor(timeLeft / HOUR_IN_MINUTES)}:${`0${Math.floor(
+      timeLeft % HOUR_IN_MINUTES,
     )}`.slice(-2)}`;
   };
 
-  const clickFullScreenHandler = () => {
+  const handeClickFullScreen = () => {
     player.current.requestFullscreen();
   };
 
-  const exitPlayer = () => {
+  const handeClickExitPlayer = () => {
     player.current.pause();
     navigate(-1);
   };
@@ -79,7 +80,7 @@ function PlayerPage(): JSX.Element {
       >
       </video>
 
-      <button type="button" className="player__exit" onClick={exitPlayer}>
+      <button type="button" className="player__exit" onClick={handeClickExitPlayer}>
         Exit
       </button>
 
@@ -112,7 +113,7 @@ function PlayerPage(): JSX.Element {
             <button
               type="button"
               className="player__play"
-              onClick={clickPauseHandler}
+              onClick={handeClickPause}
             >
               <svg viewBox="0 0 14 21" width="14" height="21">
                 <use xlinkHref="#pause"></use>
@@ -123,7 +124,7 @@ function PlayerPage(): JSX.Element {
             <button
               type="button"
               className="player__play"
-              onClick={clickPlayHandler}
+              onClick={handeClickPlay}
             >
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref="#play-s"></use>
@@ -137,7 +138,7 @@ function PlayerPage(): JSX.Element {
           <button
             type="button"
             className="player__full-screen"
-            onClick={clickFullScreenHandler}
+            onClick={handeClickFullScreen}
           >
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>

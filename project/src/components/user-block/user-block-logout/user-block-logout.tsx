@@ -3,7 +3,7 @@ import { AppRoute } from '../../../consts';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {logoutAction } from '../../../store/api-action';
 
-function UserBlockSignOut(): JSX.Element {
+function UserBlockLogOut(): JSX.Element {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.USER);
   return (
@@ -36,4 +36,4 @@ function UserBlockSignOut(): JSX.Element {
   );
 }
 
-export default UserBlockSignOut;
+export default UserBlockLogOut;

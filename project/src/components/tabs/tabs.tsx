@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, MouseEvent } from 'react';
 import { FilmDes } from '../../types/film';
-import FilmDetailTab from './film-detail/film-detail';
-import FilmOverviewTab from './film-overview/film-overview';
-import FilmReviewsTab from './film-review/film-review';
+import FilmDetailTab from './film-detail-tab/film-detail-tab';
+import FilmOverviewTab from './film-overview-tab/film-overview-tab';
+import FilmReviewsTab from './film-reviews-tab/film-reviews-tab';
 
 enum FilmPageLinks {
   overview = 'Overview',
@@ -15,20 +15,20 @@ type TabsProps = {
   film: FilmDes
 };
 
-function Tab({ film}: TabsProps): JSX.Element {
+function Tabs({ film}: TabsProps): JSX.Element {
   const [currentLink, setCurrentLink] = useState(FilmPageLinks.overview);
 
-  const clickOverviewTabLinkHandler = (evt: MouseEvent) => {
+  const handeClickOverviewTabLink = (evt: MouseEvent) => {
     evt.preventDefault();
     setCurrentLink(FilmPageLinks.overview);
   };
 
-  const clickDetailsTabLinkHandler = (evt: MouseEvent) => {
+  const handeClickDetailsTabLink = (evt: MouseEvent) => {
     evt.preventDefault();
     setCurrentLink(FilmPageLinks.details);
   };
 
-  const clickReviewsTabLinkHandler = (evt: MouseEvent) => {
+  const handeClickReviewsTabLink = (evt: MouseEvent) => {
     evt.preventDefault();
     setCurrentLink(FilmPageLinks.reviews);
   };
@@ -53,7 +53,7 @@ function Tab({ film}: TabsProps): JSX.Element {
             <a
               href="#"
               className="film-nav__link"
-              onClick={clickOverviewTabLinkHandler}
+              onClick={handeClickOverviewTabLink}
             >
               {FilmPageLinks.overview}
             </a>
@@ -66,7 +66,7 @@ function Tab({ film}: TabsProps): JSX.Element {
             <a
               href="#"
               className="film-nav__link"
-              onClick={clickDetailsTabLinkHandler}
+              onClick={handeClickDetailsTabLink}
             >
               {FilmPageLinks.details}
             </a>
@@ -79,7 +79,7 @@ function Tab({ film}: TabsProps): JSX.Element {
             <a
               href="#"
               className="film-nav__link"
-              onClick={clickReviewsTabLinkHandler}
+              onClick={handeClickReviewsTabLink}
             >
               {FilmPageLinks.reviews}
             </a>
@@ -97,4 +97,4 @@ function Tab({ film}: TabsProps): JSX.Element {
   );
 }
 
-export default Tab;
+export default Tabs;

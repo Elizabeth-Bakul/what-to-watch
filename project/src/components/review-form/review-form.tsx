@@ -1,7 +1,8 @@
 import { ChangeEvent, Fragment, useState, FormEvent} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HTTP_CODE } from '../../consts';
+import { HttpCode, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATING_STARS } from '../../consts';
 import { addNewComment } from '../../services/api';
+//import { errorHandle } from '../../services/error-handler';
 
 type ReviewFormProps = {
   filmId: number;
@@ -9,53 +10,51 @@ type ReviewFormProps = {
 function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
-  const ratingStarsCount = [];
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [disabledForm, setDisabledForm] = useState(false);
   const navigate = useNavigate();
-
   const checkValidationFormData = () => {
-    if (rating > 0 && review.length >= 50) {
+    if (
+      rating > 0 &&
+      review.length >= MIN_COMMENT_LENGTH &&
+      review.length <= MAX_COMMENT_LENGTH
+    ) {
       setDisabledSubmitButton(false);
     } else {
       setDisabledSubmitButton(true);
     }
   };
-  const changeRatingHandler = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handeChangeRating = (evt: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(evt.target.value));
     checkValidationFormData();
   };
 
-  const changeCommentHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+  const handeChangeCommentg = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setReview(evt.target.value);
     checkValidationFormData();
   };
 
-  const submitFormCommentHandler = (evt: FormEvent) => {
+  const handeSubmitFormComment = (evt: FormEvent) => {
     evt.preventDefault();
     setDisabledForm(true);
 
-    addNewComment(review, rating, filmId)
+    addNewComment(review, rating, 111111)
       .then((res) => {
-        if (res?.status === HTTP_CODE.Ok) {
+        if (res?.status === HttpCode.Ok) {
           navigate(-1);
         }
-
         setDisabledForm(false);
       })
       .catch(() => {
+        //errorHandle(error);
         setDisabledForm(false);
       });
   };
-
-  for (let value = 1; value <= 10; value++) {
-    ratingStarsCount.push(value);
-  }
   return (
     <form
       action="#"
       className="add-review__form"
-      onSubmit={submitFormCommentHandler}
+      onSubmit={handeSubmitFormComment}
     >
       <div className="rating">
         <div
@@ -63,7 +62,7 @@ function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
           onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
             setRating(parseInt(value, 10))}
         >
-          {ratingStarsCount.reverse().map((value) => (
+          {RATING_STARS.map((value) => (
             <Fragment key={value}>
               <input
                 onChange={(evt) => setRating(Number(evt.target.value))}
@@ -73,16 +72,16 @@ function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
                 name="rating"
                 value={value}
                 checked={value === rating}
+                disabled={disabledForm}
               />
               <input
-                onChange={changeRatingHandler}
+                onChange={handeChangeRating}
                 className="rating__input"
                 id={`star-${value}`}
                 type="radio"
                 name="rating"
                 value={value}
                 checked={value === rating}
-                disabled={disabledForm && true}
               />
               <label className="rating__label" htmlFor={`star-${value}`}>
                 Rating {value}
@@ -98,19 +97,19 @@ function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
           name="review-text"
           id="review-text"
           placeholder="Review text"
-          onChange={changeCommentHandler}
+          onChange={handeChangeCommentg}
           value={review}
           required
           minLength={50}
           maxLength={400}
-          disabled={disabledForm && true}
+          disabled={disabledForm}
         >
         </textarea>
         <div className="add-review__submit">
           <button
             className="add-review__btn"
             type="submit"
-            disabled={(disabledSubmitButton || disabledForm) && true}
+            disabled={disabledSubmitButton || disabledForm}
           >
             Post
           </button>

@@ -8,7 +8,7 @@ import { useNavigate, useParams} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import MoreLike from '../more-like/more-like';
-import Tab from '../tabs/tabs';
+import Tabs from '../tabs/tabs';
 import { useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -97,7 +97,7 @@ function FilmPage(): JSX.Element {
               />
             </div>
 
-            <Tab film={film} />
+            <Tabs film={film} />
           </div>
         </div>
       </section>

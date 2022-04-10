@@ -8,7 +8,7 @@ type CatalogGenresListProps = {
   currentGenre: string;
 };
 function GenresList({ genres,setCountFilmShow, setGenre, currentGenre }: CatalogGenresListProps): JSX.Element {
-  const clickToChangeGenreHandler = (evt: MouseEvent, genre: string) => {
+  const handeClickToChangeGenre = (evt: MouseEvent, genre: string) => {
     evt.preventDefault();
     setGenre(genre);
     setCountFilmShow(8);
@@ -26,7 +26,7 @@ function GenresList({ genres,setCountFilmShow, setGenre, currentGenre }: Catalog
           <a
             href="#"
             className="catalog__genres-link"
-            onClick={(evt) => clickToChangeGenreHandler(evt, item)}
+            onClick={(evt) => handeClickToChangeGenre(evt, item)}
           >
             {item}
           </a>

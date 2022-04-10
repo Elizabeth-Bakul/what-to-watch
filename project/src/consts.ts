@@ -5,7 +5,6 @@ export enum AppRoute {
   Film = '/films/:id',
   AddReview = '/films/:id/review',
   Player = '/player/:id',
-  NotFound = '/404',
 }
 
 export enum AuthorizationStatus {
@@ -22,7 +21,7 @@ export enum APIRoute {
   Logout = 'logout',
   Favorite = '/favorite',
 }
-export enum HTTP_CODE {
+export enum HttpCode {
   Ok = 200,
   Bad_request = 400,
   Unauthorized = 401,
@@ -38,4 +37,10 @@ export enum FavoriteAddOrRemove {
   Remove = 0,
 }
 
-
+export const MAX_COMMENT_LENGTH = 400;
+export const MIN_COMMENT_LENGTH = 50;
+export const COUNT_FILM_LOADED = 8;
+export const DEFAULT_GENRE_VALUE = 'All genres';
+export const RATING_STARS=[10,9,8,7,6,5,4,3,2,1];
+export const HOUR_IN_MINUTES = 60;
+export const COUNT_MORE_FILM_LOADED = 4;

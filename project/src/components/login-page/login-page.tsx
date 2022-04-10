@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 import { AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-action';
+import { addErrorMessage, checkValidatePassword } from '../../helpers-funstion';
 
 function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ function LoginPage(): JSX.Element {
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
 
-  const submitLoginFormHandler = (evt: FormEvent) => {
+  const handeSubmitLoginForm = (evt: FormEvent) => {
     evt.preventDefault();
     if (emailInput.current !== null && passwordInput.current !== null) {
       dispatch(
@@ -37,7 +38,7 @@ function LoginPage(): JSX.Element {
         <form
           action="#"
           className="sign-in__form"
-          onSubmit={submitLoginFormHandler}
+          onSubmit={handeSubmitLoginForm}
         >
           <div className="sign-in__fields">
             <div className="sign-in__field">
@@ -95,24 +96,5 @@ function LoginPage(): JSX.Element {
 }
 
 export default LoginPage;
-function addErrorMessage(element: HTMLInputElement, message: string){
-  if (message) {
-    element.setCustomValidity(message);
-    element.style.border = '3px solid red';
-  } else {
-    element.setCustomValidity('');
-    element.style.border = '';
-  }
 
-  element.reportValidity();
-}
-
-function checkValidatePassword(value: string) {
-  let errorMessage = '';
-  if (!/(?=.*\d)(?=.*[a-z])/i.test(value)) {
-    errorMessage = 'Пароль должен содержать цифры и буквы';
-  }
-
-  return errorMessage;
-}
 

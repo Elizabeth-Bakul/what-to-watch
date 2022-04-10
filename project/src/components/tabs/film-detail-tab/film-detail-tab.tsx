@@ -1,15 +1,10 @@
 import { Fragment } from 'react';
+import { getTimeStrFromMinutes } from '../../../helpers-funstion';
 import { FilmDes } from '../../../types/film';
 
 
 type FilmDetailProps = {
   film: FilmDes;
-};
-const getTimeStrFromMinutes = (minutes: number): string => {
-  if (minutes < 60) {
-    return `${minutes}m`;
-  }
-  return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
 };
 function FilmDetailTab({ film }: FilmDetailProps): JSX.Element {
   return (

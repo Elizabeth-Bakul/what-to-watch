@@ -10,7 +10,7 @@ type FilmPromoProps = {
 function PromoFilm({ promoFilm }: FilmPromoProps): JSX.Element {
   const navigate = useNavigate();
   const { authStatus } = useAppSelector((state) => state.USER);
-  const onPlayerBtnClickHandler = () => navigate(`/player/${promoFilm.id}`);
+  const handeClickPlayerBtn = () => navigate(`/player/${promoFilm.id}`);
   return (
     <div className="film-card__wrap">
       <div className="film-card__info">
@@ -40,7 +40,7 @@ function PromoFilm({ promoFilm }: FilmPromoProps): JSX.Element {
             <button
               className="btn btn--play film-card__button"
               type="button"
-              onClick={onPlayerBtnClickHandler}
+              onClick={handeClickPlayerBtn}
             >
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref="#play-s"></use>

@@ -2,13 +2,13 @@
 
 import { useAppSelector } from '../../hooks';
 import UserBlockLogin from './user-block-login/user-block-login';
-import UserBlockSignOut from './user-block-logout/user-block-logout';
+import UserBlockLogOut from './user-block-logout/user-block-logout';
 
 function UserBlock(): JSX.Element {
   const { authStatus } = useAppSelector((state) => state.USER);
   return (
     <ul className="user-block">
-      {authStatus === 'AUTH' ? <UserBlockSignOut /> : <UserBlockLogin />}
+      {authStatus === 'AUTH' ? <UserBlockLogOut /> : <UserBlockLogin />}
     </ul>
   );
 }

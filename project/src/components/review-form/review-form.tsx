@@ -37,7 +37,7 @@ function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
 
     addNewComment(review, rating, filmId)
       .then((res) => {
-        if (res?.status === HTTP_CODE.OK) {
+        if (res?.status === HTTP_CODE.Ok) {
           navigate(-1);
         }
 

@@ -6,17 +6,17 @@ import { useAppSelector } from '../../hooks';
 
 
 function MyListPage(): JSX.Element {
-  const {films} = useAppSelector((state) => state.DATA);
+  const { favoriteList } = useAppSelector((state) => state.DATA);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <Logo />
-        <h1 className="visually-hidden">WTW</h1>
+        <h1 className="page-title user-page__title">My list</h1>
         <UserBlock />
       </header>
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmList films={films} />
+        <FilmList films={favoriteList} />
       </section>
       <Footer />
     </div>

@@ -1,27 +1,55 @@
 import { useNavigate } from 'react-router-dom';
 import { FilmDes } from '../../types/film';
-import { AppRoute } from '../../consts';
+import { AuthorizationStatus, FavoriteAddOrRemove } from '../../consts';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useEffect, useState } from 'react';
+import { checkFavoriteOrNot } from '../../helpers-funstion';
+import { addFavoriteAction } from '../../store/api-action';
 type FilmPromoProps = {
-  promoFilm: FilmDes| null;
+  promoFilm: FilmDes;
 };
 
 function PromoFilm({ promoFilm }: FilmPromoProps): JSX.Element {
   const navigate = useNavigate();
-
-  const onPlayerBtnClickHandler = () => navigate(AppRoute.Player);
-  const onMyListBtnClickHandler = () => navigate(AppRoute.MyList);
+  const dispatch = useAppDispatch();
+  const { authStatus } = useAppSelector((state) => state.USER);
+  const { favoriteList } = useAppSelector((state) => state.DATA);
+  const [typeFavoriteAction, setTypeFavoriteAction] =
+    useState<FavoriteAddOrRemove>(FavoriteAddOrRemove.Add);
+  useEffect(() => {
+    if (checkFavoriteOrNot(promoFilm, favoriteList)) {
+      setTypeFavoriteAction(FavoriteAddOrRemove.Remove);
+    } else {
+      setTypeFavoriteAction(FavoriteAddOrRemove.Add);
+    }
+  }, [favoriteList, promoFilm]);
+  const onPlayerBtnClickHandler = () => navigate(`/player/${promoFilm.id}`);
+  const onMyListBtnClickHandler = () => {dispatch(
+    addFavoriteAction({ filmId: promoFilm.id, type: typeFavoriteAction }),
+  );};
   return (
     <div className="film-card__wrap">
       <div className="film-card__info">
         <div className="film-card__poster">
-          {promoFilm && <img src={promoFilm.posterImage} alt={promoFilm.name} width="218" height="327" />}
+          {promoFilm && (
+            <img
+              src={promoFilm.posterImage}
+              alt={promoFilm.name}
+              width="218"
+              height="327"
+            />
+          )}
         </div>
 
         <div className="film-card__desc">
           <h2 className="film-card__title">{promoFilm && promoFilm.name}</h2>
           <p className="film-card__meta">
-            <span className="film-card__genre">{promoFilm && promoFilm.genre}</span>
-            <span className="film-card__year">{promoFilm && promoFilm.released}</span>
+            <span className="film-card__genre">
+              {promoFilm && promoFilm.genre}
+            </span>
+            <span className="film-card__year">
+              {promoFilm && promoFilm.released}
+            </span>
           </p>
 
           <div className="film-card__buttons">
@@ -35,16 +63,24 @@ function PromoFilm({ promoFilm }: FilmPromoProps): JSX.Element {
               </svg>
               <span>Play</span>
             </button>
-            <button
-              className="btn btn--list film-card__button"
-              type="button"
-              onClick={onMyListBtnClickHandler}
-            >
-              <svg viewBox="0 0 19 20" width="19" height="20">
-                <use xlinkHref="#add"></use>
-              </svg>
-              <span>My list</span>
-            </button>
+            {AuthorizationStatus.Authorized === authStatus && (
+              <button
+                className="btn btn--list film-card__button"
+                type="button"
+                onClick={onMyListBtnClickHandler}
+              >
+                {typeFavoriteAction ? (
+                  <svg viewBox="0 0 19 20" width="19" height="20">
+                    <use xlinkHref="#add"></use>
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 18 14" width="18" height="14">
+                    <use xlinkHref="#in-list"></use>
+                  </svg>
+                )}
+                <span>My list</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

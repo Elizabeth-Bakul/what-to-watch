@@ -1,3 +1,4 @@
+import { FavoriteAddOrRemove } from '../consts';
 export type FilmDes = {
   id: number,
   name: string,
@@ -16,4 +17,9 @@ export type FilmDes = {
   genre: string,
   released: number,
   isFavorite: boolean,
+};
+
+export type Favorite = {
+  filmId: number;
+  type: FavoriteAddOrRemove;
 };

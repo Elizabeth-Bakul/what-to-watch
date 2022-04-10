@@ -4,20 +4,36 @@ import { FilmDes } from '../../types/film';
 import Footer from '../footer/footer';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
-import { useParams} from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import MoreLike from '../more-like/more-like';
 import Tab from '../tabs/tabs';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { AuthorizationStatus, FavoriteAddOrRemove } from '../../consts';
+import { checkFavoriteOrNot } from '../../helpers-funstion';
+import { addFavoriteAction } from '../../store/api-action';
 
 function FilmPage(): JSX.Element {
   const { id: idParams } = useParams();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [film, setFilm] = useState<FilmDes | null>(null);
   const [loading, setLoading] = useState(true);
   const { authStatus } = useAppSelector((state) => state.USER);
+  const { favoriteList } = useAppSelector((state) => state.DATA);
+  const [typeFavoriteAction, setTypeFavoriteAction] =
+    useState<FavoriteAddOrRemove>(FavoriteAddOrRemove.Add);
+  useEffect(() => {
+    if(film) {
+      if (checkFavoriteOrNot(film, favoriteList)) {
+        setTypeFavoriteAction(FavoriteAddOrRemove.Remove);
+      } else {
+        setTypeFavoriteAction(FavoriteAddOrRemove.Add);
+      }}
+  }, [favoriteList, film]);
   useEffect(() => {
     getFilmById(Number(idParams)).then((data) => {
       setFilm(data);
@@ -58,22 +74,38 @@ function FilmPage(): JSX.Element {
                 <button
                   className="btn btn--play film-card__button"
                   type="button"
+                  onClick={() => navigate(`/player/${film.id}`)}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button
-                  className="btn btn--list film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-                {authStatus === 'AUTH' && (
+                {AuthorizationStatus.Authorized === authStatus && (
+                  <button
+                    className="btn btn--list film-card__button"
+                    type="button"
+                    onClick={() =>
+                      dispatch(
+                        addFavoriteAction({
+                          filmId: film.id,
+                          type: typeFavoriteAction,
+                        }),
+                      )}
+                  >
+                    {typeFavoriteAction ? (
+                      <svg viewBox="0 0 19 20" width="19" height="20">
+                        <use xlinkHref="#add"></use>
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 18 14" width="18" height="14">
+                        <use xlinkHref="#in-list"></use>
+                      </svg>
+                    )}
+                    <span>My list</span>
+                  </button>
+                )}
+                {AuthorizationStatus.Authorized === authStatus && (
                   <Link
                     to={`/films/${film.id}/review`}
                     className="btn film-card__button"

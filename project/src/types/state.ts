@@ -13,6 +13,7 @@ export type FilmDataType = {
   films: FilmDes[];
   promoFilm: FilmDes | null;
   isDataLoaded: boolean;
+  favoriteList: FilmDes[];
 };
 
 export type State = ReturnType<typeof store.getState>;

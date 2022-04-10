@@ -11,9 +11,13 @@ import NotFoundPage from '../not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { useAppSelector } from '../../hooks';
+import { checkAuthAction } from '../../store/api-action';
+import { store } from '../../store/store';
 
+store.dispatch(checkAuthAction());
 function App(): JSX.Element {
-
+  const { authStatus } = useAppSelector((state) => state.USER);
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
@@ -22,7 +26,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoute>
+            <PrivateRoute authorizationStatus={authStatus}>
               <MyListPage />
             </PrivateRoute>
           }
@@ -31,7 +35,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.AddReview}
           element={
-            <PrivateRoute>
+            <PrivateRoute authorizationStatus={authStatus}>
               <AddReviewPage />
             </PrivateRoute>
           }

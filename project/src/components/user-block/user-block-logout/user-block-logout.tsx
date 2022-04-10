@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../../consts';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { logoutAction } from '../../../store/api-action';
+import {logoutAction } from '../../../store/api-action';
 
 function UserBlockSignOut(): JSX.Element {
   const dispatch = useAppDispatch();

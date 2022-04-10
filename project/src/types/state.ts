@@ -13,6 +13,9 @@ export type FilmDataType = {
   films: FilmDes[];
   promoFilm: FilmDes | null;
   isDataLoaded: boolean;
+};
+export type FavoriteDataType = {
+  isDataFavLoaded: boolean;
   favoriteList: FilmDes[];
 };
 

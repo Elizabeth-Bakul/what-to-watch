@@ -57,6 +57,7 @@ function PlayerPage(): JSX.Element {
   };
 
   const exitPlayer = () => {
+    player.current.pause();
     navigate(-1);
   };
 

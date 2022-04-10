@@ -4,9 +4,8 @@ import UserBlock from '../user-block/user-block';
 import FilmList from '../film-list/film-list';
 import { useAppSelector } from '../../hooks';
 
-
 function MyListPage(): JSX.Element {
-  const { favoriteList } = useAppSelector((state) => state.DATA);
+  const { favoriteList } = useAppSelector((state) => state.FAVORITE);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

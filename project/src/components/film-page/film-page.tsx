@@ -9,31 +9,20 @@ import { Link } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import MoreLike from '../more-like/more-like';
 import Tab from '../tabs/tabs';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { AuthorizationStatus, FavoriteAddOrRemove } from '../../consts';
-import { checkFavoriteOrNot } from '../../helpers-funstion';
-import { addFavoriteAction } from '../../store/api-action';
+import { AuthorizationStatus} from '../../consts';
+import AddMyListBotton from '../add-my-list-botton/add-my-list-botton';
 
 function FilmPage(): JSX.Element {
   const { id: idParams } = useParams();
-  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const [film, setFilm] = useState<FilmDes | null>(null);
   const [loading, setLoading] = useState(true);
   const { authStatus } = useAppSelector((state) => state.USER);
-  const { favoriteList } = useAppSelector((state) => state.DATA);
-  const [typeFavoriteAction, setTypeFavoriteAction] =
-    useState<FavoriteAddOrRemove>(FavoriteAddOrRemove.Add);
-  useEffect(() => {
-    if(film) {
-      if (checkFavoriteOrNot(film, favoriteList)) {
-        setTypeFavoriteAction(FavoriteAddOrRemove.Remove);
-      } else {
-        setTypeFavoriteAction(FavoriteAddOrRemove.Add);
-      }}
-  }, [favoriteList, film]);
+
   useEffect(() => {
     getFilmById(Number(idParams)).then((data) => {
       setFilm(data);
@@ -82,28 +71,7 @@ function FilmPage(): JSX.Element {
                   <span>Play</span>
                 </button>
                 {AuthorizationStatus.Authorized === authStatus && (
-                  <button
-                    className="btn btn--list film-card__button"
-                    type="button"
-                    onClick={() =>
-                      dispatch(
-                        addFavoriteAction({
-                          filmId: film.id,
-                          type: typeFavoriteAction,
-                        }),
-                      )}
-                  >
-                    {typeFavoriteAction ? (
-                      <svg viewBox="0 0 19 20" width="19" height="20">
-                        <use xlinkHref="#add"></use>
-                      </svg>
-                    ) : (
-                      <svg viewBox="0 0 18 14" width="18" height="14">
-                        <use xlinkHref="#in-list"></use>
-                      </svg>
-                    )}
-                    <span>My list</span>
-                  </button>
+                  <AddMyListBotton film={film}/>
                 )}
                 {AuthorizationStatus.Authorized === authStatus && (
                   <Link

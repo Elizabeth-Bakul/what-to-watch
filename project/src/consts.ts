@@ -31,6 +31,7 @@ export enum HTTP_CODE {
 export enum NameSpace {
   Data = 'DATA',
   User = 'USER',
+  Favorite='FAVORITE'
 }
 export enum FavoriteAddOrRemove {
   Add = 1,

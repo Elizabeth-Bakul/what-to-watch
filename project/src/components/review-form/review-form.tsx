@@ -2,7 +2,7 @@ import { ChangeEvent, Fragment, useState, FormEvent} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HttpCode, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATING_STARS } from '../../consts';
 import { addNewComment } from '../../services/api';
-//import { errorHandle } from '../../services/error-handler';
+import { errorHandle } from '../../services/error-handler';
 
 type ReviewFormProps = {
   filmId: number;
@@ -38,15 +38,15 @@ function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
     evt.preventDefault();
     setDisabledForm(true);
 
-    addNewComment(review, rating, 111111)
+    addNewComment(review, rating, filmId)
       .then((res) => {
         if (res?.status === HttpCode.Ok) {
           navigate(-1);
         }
         setDisabledForm(false);
       })
-      .catch(() => {
-        //errorHandle(error);
+      .catch((error) => {
+        errorHandle(error);
         setDisabledForm(false);
       });
   };

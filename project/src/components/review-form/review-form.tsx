@@ -1,8 +1,13 @@
-import { ChangeEvent, Fragment, useState, FormEvent} from 'react';
+import { ChangeEvent, Fragment, useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HttpCode, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATING_STARS } from '../../consts';
+import {
+  HttpCode,
+  MAX_COMMENT_LENGTH,
+  MIN_COMMENT_LENGTH,
+  RATING_STARS
+} from '../../consts';
 import { addNewComment } from '../../services/api';
-import { errorHandle } from '../../services/error-handler';
+//import { errorHandle } from '../../services/error-handler';
 
 type ReviewFormProps = {
   filmId: number;
@@ -40,17 +45,12 @@ function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
 
     addNewComment(review, rating, filmId)
       .then((res) => {
-      if(!res){
-        //Обработка ошибки
-      } else {
         if (res?.status === HttpCode.Ok) {
           navigate(-1);
         }
-      }
         setDisabledForm(false);
       })
-      .catch((error) => {
-        errorHandle(error);
+      .catch(() => {
         setDisabledForm(false);
       });
   };

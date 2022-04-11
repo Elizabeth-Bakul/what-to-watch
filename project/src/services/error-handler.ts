@@ -11,8 +11,6 @@ export const errorHandle = (error: ErrorType): void => {
   const { message, response } = error;
 
   if (response) {
-    // eslint-disable-next-line no-console
-    console.log(response);
     switch (response.status) {
       case HttpCode.Bad_request:
         toast.info(response.data.error);

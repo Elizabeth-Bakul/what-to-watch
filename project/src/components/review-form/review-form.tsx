@@ -7,7 +7,6 @@ import {
   RATING_STARS
 } from '../../consts';
 import { addNewComment } from '../../services/api';
-//import { errorHandle } from '../../services/error-handler';
 
 type ReviewFormProps = {
   filmId: number;

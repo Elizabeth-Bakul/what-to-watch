@@ -8,9 +8,11 @@ export const errorHandle = (error: ErrorType): void => {
     throw error;
   }
 
-  const { response } = error;
+  const { message, response } = error;
 
   if (response) {
+    // eslint-disable-next-line no-console
+    console.log(response);
     switch (response.status) {
       case HttpCode.Bad_request:
         toast.info(response.data.error);
@@ -21,6 +23,12 @@ export const errorHandle = (error: ErrorType): void => {
       case HttpCode.Not_found:
         toast.info(response.data.error);
         break;
+      case HttpCode.Ok:
+        break;
+      default:
+        toast.error(response.data.error);
     }
+  } else {
+    toast.error(message);
   }
 };

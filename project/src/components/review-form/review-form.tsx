@@ -40,9 +40,13 @@ function ReviewForm({ filmId }: ReviewFormProps): JSX.Element {
 
     addNewComment(review, rating, filmId)
       .then((res) => {
+      if(!res){
+        //Обработка ошибки
+      } else {
         if (res?.status === HttpCode.Ok) {
           navigate(-1);
         }
+      }
         setDisabledForm(false);
       })
       .catch((error) => {
